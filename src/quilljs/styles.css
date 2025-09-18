@@ -1,0 +1,143 @@
+.quill-editor-container {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  margin: 20px;
+}
+
+/* CABEÇALHO */
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #2c3e50;
+  color: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header-left h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.header-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #34495e;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.control-btn:hover {
+  background: #4a6580;
+}
+
+.control-btn span {
+  font-weight: 500;
+}
+
+/* ÁREA DO EDITOR QUILL */
+.quill-editor-content {
+  padding: 0;
+}
+
+.quill-editor {
+  height: 500px;
+  border: none;
+}
+
+.ql-container {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.ql-editor {
+  padding: 20px;
+  min-height: 400px;
+}
+
+.ql-toolbar {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  padding: 12px 20px !important;
+}
+
+/* Estilos para impressão */
+@media print {
+  .editor-header {
+    display: none !important;
+  }
+
+  .ql-toolbar {
+    display: none !important;
+  }
+
+  .quill-editor-container {
+    border: none;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .editor-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .header-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .control-btn span {
+    display: none;
+  }
+
+  .control-btn {
+    padding: 8px;
+  }
+
+  .ql-toolbar {
+    padding: 8px !important;
+  }
+
+  .ql-toolbar .ql-formats {
+    margin-right: 8px !important;
+  }
+}
+
+/* Melhorias visuais */
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.ql-editor p {
+  margin-bottom: 1em;
+}
+
+.ql-editor ul,
+.ql-editor ol {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}

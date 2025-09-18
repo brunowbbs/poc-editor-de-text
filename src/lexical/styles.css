@@ -1,0 +1,272 @@
+/* Reset básico e estilos para o layout de tela cheia */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: #f0f2f5;
+}
+
+/* Container principal do editor */
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Barra de ferramentas */
+.toolbar {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+}
+.toolbar button,
+.toolbar select,
+.toolbar input {
+  border: none;
+  background-color: transparent;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 4px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease;
+  vertical-align: middle;
+}
+.toolbar button:hover,
+.toolbar select:hover,
+.toolbar input:hover {
+  background-color: #f0f0f0;
+}
+.toolbar button.active {
+  background-color: #e0e0e0;
+}
+.toolbar select {
+  padding: 5px 4px;
+  border: 1px solid #ccc;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  background-size: 1em;
+  padding-right: 24px;
+}
+.toolbar input[type="color"] {
+  width: 28px;
+  height: 28px;
+  padding: 2px;
+  border: 1px solid #ccc;
+}
+.divider {
+  width: 1px;
+  background-color: #d4d4d4;
+  height: 24px;
+  margin: 0 8px;
+}
+
+/* O fundo cinza que contém e rola a página */
+.editor-inner {
+  flex: 1;
+  background: #f0f2f5;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+/* A "folha de papel" branca e contínua */
+.editor-input {
+  display: block;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  max-width: 850px;
+  margin: 0 auto 2rem;
+  padding: 60px;
+  min-height: 1123px;
+  outline: none;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #111;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 1121.5px,
+    #ccc 1121.5px,
+    #ccc 1122.5px,
+    transparent 1122.5px
+  );
+  background-size: 100% 1122.5px;
+}
+
+/* Controle de espaçamento entre parágrafos (criados com Shift+Enter) */
+.editor-paragraph {
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+/* Placeholder */
+.editor-placeholder {
+  color: #aaa;
+  position: absolute;
+  top: calc(2rem + 60px);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 850px;
+  width: 100%;
+  padding: 0 60px;
+  user-select: none;
+  pointer-events: none;
+  font-size: 16px;
+  margin-top: 35px;
+  line-height: 1.5;
+}
+
+/* Estilos para imagem e outros */
+.image-container {
+  display: flex;
+  margin: 16px 0;
+  position: relative;
+}
+.image-container.left {
+  justify-content: flex-start;
+}
+.image-container.center {
+  justify-content: center;
+}
+.image-container.right {
+  justify-content: flex-end;
+}
+.image-container .image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.image-container img {
+  max-width: 100%;
+  height: auto;
+}
+.image-format-toolbar {
+  display: flex;
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #222;
+  border-radius: 6px;
+  padding: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 11;
+}
+.image-format-toolbar button {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  margin: 0 2px;
+  cursor: pointer;
+  color: white;
+  border-radius: 4px;
+}
+.image-format-toolbar button.active,
+.image-format-toolbar button:hover {
+  background: #444;
+}
+
+/* Estilos para redimensionamento de imagem */
+.image-resizer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.image-handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #007bff;
+  border: 1px solid white;
+  border-radius: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.editor-link {
+  color: #0066cc;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.editor-text-bold {
+  font-weight: bold;
+}
+.editor-text-italic {
+  font-style: italic;
+}
+.editor-heading-h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 0.75em;
+  page-break-before: always;
+  page-break-after: avoid;
+}
+.editor-heading-h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  page-break-after: avoid;
+}
+.editor-quote {
+  margin: 1em 0;
+  margin-left: 20px;
+  padding-left: 15px;
+  border-left: 3px solid #ccc;
+  color: #555;
+  font-style: italic;
+}
+
+/* Estilos para Impressão */
+@media print {
+  body > *:not(.editor-container) {
+    display: none;
+  }
+  .editor-container {
+    display: block;
+    height: auto;
+  }
+  .toolbar {
+    display: none !important;
+  }
+  .editor-inner {
+    overflow-y: visible !important;
+    padding: 0 !important;
+    background: none !important;
+  }
+  .editor-input {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    min-height: auto !important;
+    max-width: 100% !important;
+    background-image: none !important;
+  }
+  .editor-placeholder {
+    display: none !important;
+  }
+  * {
+    color: black !important;
+    background: transparent !important;
+  }
+}
