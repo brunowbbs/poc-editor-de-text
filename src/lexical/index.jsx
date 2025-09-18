@@ -40,7 +40,6 @@ import {
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import {
-  // --- IMPORT CORRIGIDO AQUI ---
   $createParagraphNode,
   $getNodeByKey,
   $getSelection,
@@ -51,9 +50,11 @@ import {
   DecoratorNode,
   FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
+  INDENT_CONTENT_COMMAND, // Adicionado para a tecla Tab
   INSERT_LINE_BREAK_COMMAND,
   INSERT_PARAGRAPH_COMMAND,
   KEY_DOWN_COMMAND,
+  OUTDENT_CONTENT_COMMAND, // Adicionado para a tecla Tab
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
@@ -506,6 +507,54 @@ function EnterKeyOverridePlugin() {
   return null;
 }
 
+// --- PLUGIN ATUALIZADO PARA A TECLA TAB ---
+function TabIndentPlugin() {
+  const [editor] = useLexicalComposerContext();
+
+  useEffect(() => {
+    return editor.registerCommand(
+      KEY_DOWN_COMMAND,
+      (event) => {
+        if (event.key === "Tab") {
+          // Acessa o estado dentro do comando
+          editor.update(() => {
+            const selection = $getSelection();
+            if ($isRangeSelection(selection)) {
+              const anchorNode = selection.anchor.getNode();
+              // Verifica se a seleção está dentro de um item de lista
+              const listItemNode = $getNearestNodeOfType(
+                anchorNode,
+                ListItemNode
+              );
+
+              event.preventDefault();
+
+              // Se for um item de lista ou se houver texto selecionado, usar indentação de bloco
+              if (listItemNode || !selection.isCollapsed()) {
+                if (event.shiftKey) {
+                  editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
+                } else {
+                  editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
+                }
+              } else {
+                // Caso contrário (parágrafo sem seleção), insere espaços
+                if (!event.shiftKey) {
+                  selection.insertText("    ");
+                }
+              }
+            }
+          });
+          return true; // Comando tratado
+        }
+        return false; // Comando não tratado
+      },
+      1 // Prioridade alta para sobrescrever o comportamento padrão
+    );
+  }, [editor]);
+
+  return null;
+}
+
 // --- BARRA DE FERRAMENTAS ---
 function BlockOptionsDropdown({ editor, blockType }) {
   const formatHeading = (level) =>
@@ -832,6 +881,7 @@ function FinalLexicalEditor() {
             ErrorBoundary={LexicalErrorBoundary}
           />
           <EnterKeyOverridePlugin />
+          <TabIndentPlugin /> {/* Plugin adicionado */}
           <ImagePlugin />
           <HistoryPlugin />
           <OnChangePlugin onChange={() => {}} />
